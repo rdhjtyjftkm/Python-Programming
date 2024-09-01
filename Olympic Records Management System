@@ -1,1 +1,221 @@
+olympics_data = {
+    "2008": [
+        ["Vebjørn Berg", "10 m air rifle", "_"],
+        ["Vebjørn Berg", "50 m rifle prone", "4"],
+        ["Vebjørn Berg", "50 m rifle 3 positions", "8"],
+        ["Espen Berg-Knutsen", "50 m rifle prone", "_"],
+        ["Espen Berg-Knutsen", "50 m rifle 3 positions", "_"],
+        ["Tore Brovold", "Skeet", "Silver"],
+        ["Are Hansen", "10 m air rifle", "_"],
+        ["Harald Jensen", "Skeet", "_"]
+    ],
+    "2012": [
+        ["Ole Magnus Bakken", "50 m rifle prone", "_"],
+        ["Ole Magnus Bakken", "10 m air rifle", "8"],
+        ["Odd Arne Brekne", "50 m rifle prone", "_"],
+        ["Odd Arne Brekne", "50 m rifle 3 positions", "_"],
+        ["Tore Brovold", "Skeet", "_"],
+        ["Ole Kristian Bryhn", "50 m rifle 3 positions", "7"],
+        ["Are Hansen", "10 m air rifle", "_"],
+        ["Are Hansen", "50 m rifle 3 positions", "_"]
+    ],
+    "2016": [
+        ["Odd Arne Brekne", "50 m rifle prone", "_"],
+        ["Odd Arne Brekne", "50 m rifle 3 positions", "_"],
+        ["Ole Kristian Bryhn", "10 m air rifle", "_"],
+        ["Ole Kristian Bryhn", "50 m rifle prone", "8"],
+        ["Ole Kristian Bryhn", "50 m rifle 3 positions", "_"],
+        ["Are Hansen", "10 m air rifle", "_"]
+    ],
+    "2020": [
+        ["Jon-Hermann Hegg", "Men's 10 m air rifle", "_"],
+        ["Jon-Hermann Hegg", "Men's 50 m rifle 3 positions", "4"],
+        ["Henrik Larsen", "Men's 10 m air rifle", "_"],
+        ["Henrik Larsen", "Men's 50 m rifle 3 positions", "_"],
+        ["Erik Watndal", "Men's skeet", "_"]
+    ],
+    "2024": [
+        ["Jon-Hermann Hegg", "50 m rifle 3 positions", "5"],
+        ["Ole Martin Halvorsen", "50 m rifle 3 positions", "5"]
+    ]
+}
+
+athlete_info = {
+    "Vebjørn Berg": ["1 April 1980", "Hamar, Innlandet (NOR)", "Norway"],
+    "Espen Berg-Knutsen": ["2 October 1969", "Oslo, Norway", "Norway"],
+    "Tore Brovold": ["12 June 1970", "Hamar, Innlandet (NOR)", "Norway"],
+    "Are Hansen": ["16 January 1982", "Fredrikstad, Viken (NOR)", "Norway"],
+    "Harald Jensen": ["18 December 1966", "Asker, Viken (NOR)", "Norway"],
+    "Ole Magnus Bakken": ["28 April 1988", "Hamar, Innlandet (NOR)", "Norway"],
+    "Odd Arne Brekne": ["1 September 1984", "Farsund, Agder (NOR)", "Norway"],
+    "Ole Kristian Bryhn": ["1 May 1989", "Drammen, Viken (NOR)", "Norway"],
+    "Jon-Hermann Hegg": ["26 March 1999", "Dingle, Kerry (IRL)", "Norway"],
+    "Henrik Larsen": ["8 September 1997", "Fredrikstad, Viken (NOR)", "Norway"],
+    "Erik Watndal": ["27 August 1979", "Oslo, Oslo (NOR)", "Norway"],
+    "Ole Martin Halvorsen": ["11 February 2000", "Norway", "Norway"]
+}
+
+def add_or_update_athlete():
+    name = input("Enter athlete's name: ")
+    if name in athlete_info:
+        print(f"Existing details for {name}: {athlete_info[name]}")
+        update = input("Do you want to update these details? (yes/no): ")
+        if update.lower() != 'yes':
+            return
+    birth_date = input("Enter birth date (e.g., 1 January 1980): ")
+    birthplace = input("Enter birthplace (e.g., Oslo, Norway): ")
+    country = input("Enter country: ")
+    athlete_info[name] = [birth_date, birthplace, country]
+    print(f"Details for {name} have been added/updated.")
+
+def view_athlete_info():
+    choice = input("Enter 'all' to view all athletes or 'specific' to view a specific athlete: ")
+    if choice.lower() == 'all':
+        print(f"\n{'Athlete':<25} {'Birth Date':<20} {'Birthplace':<35} {'Country':<15}")
+        print("=" * 85)
+        for name, details in athlete_info.items():
+            print(f"{name:<25} {details[0]:<20} {details[1]:<35} {details[2]:<15}")
+    elif choice.lower() == 'specific':
+        name = input("Enter athlete's name: ")
+        if name in athlete_info:
+            details = athlete_info[name]
+            print(f"\n{'Athlete':<25} {'Birth Date':<15} {'Birthplace':<30} {'Country':<15}")
+            print("=" * 85)
+            print(f"{name:<25} {details[0]:<15} {details[1]:<30} {details[2]:<15}")
+        else:
+            print(f"No information found for athlete: {name}")
+    else:
+        print("Invalid choice. Please try again.")
+
+def add_or_update_record():
+    year = input("Enter the Olympic year (2008, 2012, 2016, 2020, 2024): ")
+    if year not in olympics_data:
+        olympics_data[year] = []
+    athlete_name = input("Enter athlete's name: ")
+    event = input("Enter event name: ")
+    rank = input("Enter rank (or '_' if not ranked): ")
+    olympics_data[year].append([athlete_name, event, rank])
+    print(f"Record for {athlete_name} in {year} has been added/updated.")
+
+def view_details():
+    year = input("Enter the Olympic year (2008, 2012, 2016, 2020, 2024) or type 'all' to view all details: ")
+    if year == 'all':
+        view_all_olympics_details()
+    elif year in olympics_data:
+        print(f"\nDetails for {year} Olympics:\n")
+        print(f"{'Athlete':<25} {'Event':<30} {'Rank':<10}")
+        print("=" * 65)
+        for record in olympics_data[year]:
+            print(f"{record[0]:<25} {record[1]:<30} {record[2]:<10}")
+    else:
+        print("No data available for this year.")
+
+def view_all_olympics_details():
+    print("\nDetails for All Olympics:\n")
+    print(f"{'Year':<10} {'Athlete':<25} {'Event':<30} {'Rank':<10}")
+    print("=" * 75)
+    for year in olympics_data:
+        for record in olympics_data[year]:
+            print(f"{year:<10} {record[0]:<25} {record[1]:<30} {record[2]:<10}")
+
+def view_medal_count_by_country():
+    medal_count = {}
+    for year in olympics_data:
+        for record in olympics_data[year]:
+            if record[2] in ["1", "2", "3", "Gold", "Silver", "Bronze"]:
+                country = athlete_info[record[0]][2]
+                if country not in medal_count:
+                    medal_count[country] = 0
+                medal_count[country] += 1
+    if medal_count:
+        print("\nMedal Count by Country:")
+        print(f"{'Country':<20} {'Medals':<10}")
+        print("=" * 30)
+        for country, count in medal_count.items():
+            print(f"{country:<20} {count:<10}")
+    else:
+        print("No medals found.")
+
+def search_athlete_performance():
+    athlete_name = input("Enter athlete's name: ")
+    found = False
+    print(f"\nPerformance for {athlete_name}:\n")
+    print(f"{'Year':<10} {'Event':<30} {'Rank':<10}")
+    print("=" * 50)
+    for year in olympics_data:
+        for record in olympics_data[year]:
+            if record[0].lower() == athlete_name.lower():
+                print(f"{year:<10} {record[1]:<30} {record[2]:<10}")
+                found = True
+    if not found:
+        print("No records found for this athlete.")
+
+def view_event_details():
+    event_name = input("Enter event name: ")
+    found = False
+    print(f"\nDetails for {event_name}:\n")
+    print(f"{'Year':<10} {'Athlete':<25} {'Rank':<10}")
+    print("=" * 45)
+    for year in olympics_data:
+        for record in olympics_data[year]:
+            if record[1].lower() == event_name.lower():
+                print(f"{year:<10} {record[0]:<25} {record[2]:<10}")
+                found = True
+    if not found:
+        print("No records found for this event.")
+
+def view_statistics():
+    total_events = sum([len(olympics_data[year]) for year in olympics_data])
+    total_athletes = len(set([record[0] for year in olympics_data for record in olympics_data[year]]))
+    print(f"\nTotal Events: {total_events}, Total Athletes: {total_athletes}")
+    
+    ranks = [int(record[2]) for year in olympics_data for record in olympics_data[year] if record[2].isdigit()]
+    if ranks:
+        average_rank = sum(ranks) / len(ranks)
+        print(f"Average Rank: {average_rank:.2f}")
+    else:
+        print("No ranking data available to calculate average rank.")
+
+def main():
+    while True:
+        print("\nOlympic Records Management System")
+        print("1. View Details")
+        print("2. View Athlete Information")
+        print("3. Search Athlete Performance")
+        print("4. View Event Details")
+        print("5. View Statistics")
+        print("6. Add or View Athlete Information")
+        print("7. Add or Update Olympic Record")
+        print("8. Exit")
+        
+        choice = input("Enter your choice: ")
+        if choice == '1':
+            view_details()
+        elif choice == '2':
+            view_athlete_info()
+        elif choice == '3':
+            search_athlete_performance()
+        elif choice == '4':
+            view_event_details()
+        elif choice == '5':
+            view_statistics()
+        elif choice == '6':
+            sub_choice = input("Enter '1' to add/update athlete info or '2' to view athlete info: ")
+            if sub_choice == '1':
+                add_or_update_athlete()
+            elif sub_choice == '2':
+                view_athlete_info()
+            else:
+                print("Invalid choice. Please try again.")
+        elif choice == '7':
+            add_or_update_record()
+        elif choice == '8':
+            print("\nExiting the system...\nTHANK YOU!")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+main()
+
+    
 
